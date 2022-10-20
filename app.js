@@ -47,7 +47,7 @@ getAvailableCourses(printCourses)
   }
 
   function printTees(teeBoxes) {
-    console.log(teeBoxes)
+    //console.log(teeBoxes)
     let teeBoxSelectHtml = ''
     teeBoxes.forEach((teeBox, index) => {
     teeBoxSelectHtml += `<option value="${index}">${teeBox.teeType.toUpperCase()} </option>` // could potentially include ${teeBox.yards} yards
@@ -56,8 +56,8 @@ getAvailableCourses(printCourses)
   }
 
   document.getElementById('tee-box-select').addEventListener('change', (e) => {
-    currentCourse = e.target.value
-    // console.log(currentCourse)
+    currentTee = e.target.value
+    console.log(currentTee)
 
 })
 
