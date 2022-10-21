@@ -2,7 +2,23 @@
   let currentCourse = 18300
   let playerCount = 0
   let players = []
+
+
   let yards = [];
+  let par = []
+  let handicap = []
+
+
+  const yardsOne = document.getElementById("yardsOne");
+  const parOne = document.getElementById("parOne");
+  const handicapOne = document.getElementById("handicapOne");
+
+  const yardsTwo = document.getElementById("yardsTwo");
+  const parTwo = document.getElementById("parTwo");
+  const handicapTwo = document.getElementById("handicapTwo");
+
+
+
 
   class Player {
       constructor(name, scores = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]) {
@@ -66,12 +82,14 @@ getAvailableCourses(printCourses)
     let parsedTee = parseInt(teeToBeParsed)
     currentTee = parsedTee
     yards = []
+    par = []
+    handicap = []
     getCourseInfo(printCourseInfo)
     //console.log(currentTee)
 })
 
 
-// GETTING THE YARDS
+// GETTING THE COURSE INFORMATION YARDS, PAR, HANDICAP
 
 function getCourseInfo(cb) {
     fetch (`https://golf-courses-api.herokuapp.com/courses/${currentCourse}`)
@@ -82,32 +100,117 @@ function getCourseInfo(cb) {
 function printCourseInfo(holes) {
     holes.forEach((index) => {
         index.teeBoxes.forEach((box) => {
-        //console.log(box.teeTypeId, "===", currentTee)
         if (box.teeTypeId === currentTee) {
             yards.push(box.yards)
+            par.push(box.par)
+            handicap.push(box.hcp)
+            render()
             }
         })
     })
-    console.log(yards)
 }
 
 getCourseInfo(printCourseInfo)
+
+
+// THESE FUNCTIONS PRINT THE COURSE INFORMATION
+
+function printYards() {
+    clearElement(yardsOne)
+    clearElement(yardsTwo)
+
+    const yardsOneHeader = document.createElement('th')
+    yardsOneHeader.innerText = 'Yard'
+    yardsOne.appendChild(yardsOneHeader)
+
+    const yardsTwoHeader = document.createElement('th')
+    yardsTwoHeader.innerText = 'Yard'
+    yardsTwo.appendChild(yardsTwoHeader)
+
+    let yardsOneSlice = yards.slice(0 , 9)
+    let yardsTwoSlice = yards.slice(9)
     
-    // let yardsRow = document.getElementById("holes");
+    yardsOneSlice.forEach((item) => {
+            let td = document.createElement("td");
+            td.innerText = item;
+            yardsOne.appendChild(td);
+        })
 
-    // yards.forEach((item) => {
-    //     let td = document.createElement("td");
-    //     td.innerText = item;
-    //     yardsRow.appendChild(td);
-    // });
+        yardsTwoSlice.forEach((item) => {
+            let td = document.createElement("td");
+            td.innerText = item;
+            yardsTwo.appendChild(td);
+        })
+}
+
+function printPar() {
+    clearElement(parOne)
+    clearElement(parTwo)
+
+    const parOneHeader = document.createElement('th')
+    parOneHeader.innerText = 'Par'
+    parOne.appendChild(parOneHeader)
+
+    const parTwoHeader = document.createElement('th')
+    parTwoHeader.innerText = 'Par'
+    parTwo.appendChild(parTwoHeader)
+
+    let parOneSlice = par.slice(0 , 9)
+    let parTwoSlice = par.slice(9)
+    
+    parOneSlice.forEach((item) => {
+            let td = document.createElement("td");
+            td.innerText = item;
+            parOne.appendChild(td);
+        })
+
+    parTwoSlice.forEach((item) => {
+            let td = document.createElement("td");
+            td.innerText = item;
+            parTwo.appendChild(td);
+        })
+}
 
 
+function printHandicap() {
+    clearElement(handicapOne)
+    clearElement(handicapTwo)
 
+    const handicapOneHeader = document.createElement('th')
+    handicapOneHeader.innerText = 'Handicap'
+    handicapOne.appendChild(handicapOneHeader)
 
+    const handicapTwoHeader = document.createElement('th')
+    handicapTwoHeader.innerText = 'Handicap'
+    handicapTwo.appendChild(handicapTwoHeader)
 
+    let handicapOneSlice = handicap.slice(0 , 9)
+    let handicapTwoSlice = handicap.slice(9)
+    
+    handicapOneSlice.forEach((item) => {
+            let td = document.createElement("td");
+            td.innerText = item;
+            handicapOne.appendChild(td);
+        })
 
+    handicapTwoSlice.forEach((item) => {
+            let td = document.createElement("td");
+            td.innerText = item;
+            handicapTwo.appendChild(td);
+        })
+}
 
+function render() {
+    printYards()
+    printPar()
+    printHandicap()
+}
 
+function clearElement(element) {
+    while (element.firstChild) {
+        element.removeChild(element.firstChild)
+    }
+}
 
 
 //   getCourseInfo(render)
