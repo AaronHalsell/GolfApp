@@ -2,7 +2,7 @@
   let currentCourse = 18300
   let playerCount = 0
   let players = []
-//   const selectCourse = getElementById('#course-select')
+  let yards = [];
 
   class Player {
       constructor(name, scores = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]) {
@@ -12,7 +12,7 @@
       }
   }
 
-  // Selecting a course
+  // CHANGING THE COURSE
 
   function getAvailableCourses(cb) {
       fetch('https://golf-courses-api.herokuapp.com/courses/')
@@ -32,36 +32,82 @@
 getAvailableCourses(printCourses) 
 
     document.getElementById('course-select').addEventListener('change', (e) => {
+        e.preventDefault();
         currentCourse = e.target.value
         // console.log(currentCourse)
-        getCourseInfo(printTees)
+        getCourseTeeBoxes(printTees)
     })
 
 
-// Changing in the Tee
+// CHANGING THE TEES
 
-  function getCourseInfo(cb) {
-      fetch(`https://golf-courses-api.herokuapp.com/courses/${currentCourse}`)
-          .then(response => response.json())
-          .then(data => cb(data.data.holes[0].teeBoxes));
+  function getCourseTeeBoxes(cb) {
+    fetch(`https://golf-courses-api.herokuapp.com/courses/${currentCourse}`)
+        .then(response => response.json())
+        .then(data => cb(data.data.holes[0].teeBoxes));
   }
 
   function printTees(teeBoxes) {
-    //console.log(teeBoxes)
     let teeBoxSelectHtml = ''
     teeBoxes.forEach((teeBox, index) => {
-    teeBoxSelectHtml += `<option value="${index}">${teeBox.teeType.toUpperCase()} </option>` // could potentially include ${teeBox.yards} yards
+    teeBoxSelectHtml += `<option value="${teeBox.teeTypeId}">${teeBox.teeType.toUpperCase()} </option>` // could potentially include ${teeBox.yards} yards
+    currentTee = teeBox.teeTypeId
     })
     document.getElementById('tee-box-select').innerHTML = teeBoxSelectHtml;
   }
 
-  document.getElementById('tee-box-select').addEventListener('change', (e) => {
-    currentTee = e.target.value
-    console.log(currentTee)
+  // Here we are printing the default Tee we're going to call this again later
+  getCourseTeeBoxes(printTees)
 
+
+  document.getElementById('tee-box-select').addEventListener('change', (e) => {
+    e.preventDefault();
+    let teeToBeParsed = e.target.value
+    let parsedTee = parseInt(teeToBeParsed)
+    currentTee = parsedTee
+    yards = []
+    getCourseInfo(printCourseInfo)
+    //console.log(currentTee)
 })
 
-getCourseInfo(printTees)
+
+// GETTING THE YARDS
+
+function getCourseInfo(cb) {
+    fetch (`https://golf-courses-api.herokuapp.com/courses/${currentCourse}`)
+    .then(response => response.json())
+    .then(data => cb(data.data.holes));
+}
+ 
+function printCourseInfo(holes) {
+    holes.forEach((index) => {
+        index.teeBoxes.forEach((box) => {
+        //console.log(box.teeTypeId, "===", currentTee)
+        if (box.teeTypeId === currentTee) {
+            yards.push(box.yards)
+            }
+        })
+    })
+    console.log(yards)
+}
+
+getCourseInfo(printCourseInfo)
+    
+    // let yardsRow = document.getElementById("holes");
+
+    // yards.forEach((item) => {
+    //     let td = document.createElement("td");
+    //     td.innerText = item;
+    //     yardsRow.appendChild(td);
+    // });
+
+
+
+
+
+
+
+
 
 
 //   getCourseInfo(render)
@@ -70,10 +116,10 @@ getCourseInfo(printTees)
 //       getCourseInfo(render)
 //   }
 
-  function changeCourse(courseID) {
-      currentCourse = courseID
-      getCourseInfo(render)
-  }
+//   function changeCourse(courseID) {
+//       currentCourse = courseID
+//       getCourseInfo(render)
+//   }
 
   function addPlayer(name) {
       name = document.getElementById('playerName').value
