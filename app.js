@@ -4,7 +4,7 @@
   let players = []
 
 
-  let yards = [];
+  let yards = []
   let par = []
   let handicap = []
 
@@ -17,6 +17,10 @@
   const parTwo = document.getElementById("parTwo");
   const handicapTwo = document.getElementById("handicapTwo");
 
+  const playerForm = document.getElementById("playerForm")
+  const playerName = document.getElementById('playerName')
+  const cardOne = document.getElementById('cardOne')
+  const cardTwo = document.getElementById('cardTwo')
 
 
 
@@ -73,7 +77,7 @@ getAvailableCourses(printCourses)
   }
 
   // Here we are printing the default Tee we're going to call this again later
-  getCourseTeeBoxes(printTees)
+getCourseTeeBoxes(printTees)
 
 
   document.getElementById('tee-box-select').addEventListener('change', (e) => {
@@ -224,14 +228,50 @@ function clearElement(element) {
 //       getCourseInfo(render)
 //   }
 
-  function addPlayer(name) {
-      name = document.getElementById('playerName').value
-      if (name != "") {
-          playerCount += 1
-          players.push(new Player(name))
-          document.getElementById('playerName').value = ''
-          getCourseInfo(render)
-          validatePlayerCount()
-      }
-  }
+//   function addPlayer(name) {
+//       name = document.getElementById('playerName').value
+//       if (name != "") {
+//           playerCount += 1
+//           players.push(new Player(name))
+//           document.getElementById('playerName').value = ''
+//           getCourseInfo(render)
+//           //validatePlayerCount()
+//       }
+//   }
 
+  playerForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    // Here we are storing the value of the form after the user clicks the button
+    const playerVal = playerName.value;
+    // if the user leaves the form blank we return with nothing 
+    // if filled out we will call the render function and push the HTML so it displays on the left column
+    if (!playerVal) return
+        playerCount += 1
+        const player = addPlayer(playerVal)
+        playerName.value = null
+        players.push(player)
+        console.log(playerCount)
+        console.log(players)
+        printPlayer()
+    })
+
+
+    function addPlayer (name) {
+        return {id: Date.now().toString(), name: name, scores: [] }
+     }
+
+
+    function printPlayer () {
+        players.forEach (player => {
+            clearElement()
+            const playerRow = document.createElement('tr')
+            playerRow.dataset.playerId = player.id
+            
+            const playerHeading = document.createElement('th')
+            playerHeading.innerHTML = `${player.name}`
+            
+            cardOne.appendChild(playerRow) 
+            playerRow.appendChild(playerHeading)
+
+        })
+    }
