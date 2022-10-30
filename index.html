@@ -16,31 +16,42 @@
     <title>Golf App</title>
 </head>
 <body>
+
+
+    <div class="collapse" id="navbarToggleExternalContent">
+        <div class="bg-dark p-4">
+            <div id="options-container">
+                <div class="form-group">
+                    <label for="course-select">Select Course</label>
+                    <select class="form-control" id="course-select"></select>
+                  </div>
+                  <div class="form-group">
+                    <label for="course-select">Select Tee</label>
+                    <select class="form-control" id="tee-box-select"></select>
+                  </div>
+            </div>
+        </div>
+      </div>
+      <nav class="navbar navbar-dark bg-dark">
+        <div class="container-fluid">
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <h1 class="text-white">The Cornfields Golf</h1>
+        </div>
+        <div class="col-md-6">
+            <form id="playerForm" class="input-group mb-3">
+                <input type="text" class="form-control list-form" placeholder="Enter New Player" aria-describedby="button-addon2" id="playerName">
+                <button class="btn rounded-pill" type="submit" id="new-player-submit"">+</button>
+            </form>
+            </div>
+      </nav>
+
+    
     <div class="container">
         <div class="row">
             <div class="col-lg-12" id="header"></div>
         </div>
-        <div class="row">
-            <div class="col-lg-12">
-                <div id="options-container">
-                    <div class="form-group">
-                        <label for="course-select">Select Course</label>
-                        <select class="form-control" id="course-select"></select>
-                      </div>
-                      <div class="form-group">
-                        <label for="course-select">Select Tee</label>
-                        <select class="form-control" id="tee-box-select"></select>
-                      </div>
-                      <div>
-                        <form id="playerForm" class="input-group mb-3">
-                            <input type="text" class="form-control list-form" placeholder="Enter New Player" aria-describedby="button-addon2" id="playerName">
-                            <button class="btn rounded-pill" type="submit" id="new-player-submit"">+</button>
-                          </form>
-                      </div>
-                </div>
-            </div>
-        </di
-        v>
  
         <div class="row" id="scorecard-container">
             <div class="col-lg-12" id="scorecard">
@@ -48,22 +59,25 @@
                 <h1>Card 1</h1>
                 <div class="table-responsive">
                     <table class="table table-bordered" id="cardOne">
-                        <tr id="holes">
-                            <th scope="row">Hole</th>
-                            <td>1</td>
-                            <td>2</td>
-                            <td>3</td>
-                            <td>4</td>
-                            <td>5</td>
-                            <td>6</td>
-                            <td>7</td>
-                            <td>8</td>
-                            <td>9</td>
-                            <th scope="row">Out</th>
-                        </tr>
-                        <tr id="yardsOne"></tr>
-                        <tr id="parOne"></tr>
-                        <tr id="handicapOne"></tr>
+                        <tbody>
+                            <tr id="holes">
+                                <th scope="row">Hole</th>
+                                <td>1</td>
+                                <td>2</td>
+                                <td>3</td>
+                                <td>4</td>
+                                <td>5</td>
+                                <td>6</td>
+                                <td>7</td>
+                                <td>8</td>
+                                <td>9</td>
+                                <th scope="row">Out</th>
+                            </tr>
+                            <tr id="yardsOne"></tr>
+                            <tr id="parOne"></tr>
+                            <tr id="handicapOne"></tr>
+                        </tbody>
+
                     </table>
                 </div>
                 
@@ -81,7 +95,7 @@
                             <td>16</td>
                             <td>17</td>
                             <td>18</td>
-                            <th scope="row">Out</th>
+                            <th scope="row">In</th>
                         </tr>
                         <tr id ="yardsTwo"></tr>
                         <tr id ="parTwo"></tr>

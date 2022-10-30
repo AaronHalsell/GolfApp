@@ -22,6 +22,8 @@
   const cardOne = document.getElementById('cardOne')
   const cardTwo = document.getElementById('cardTwo')
 
+  const playerLabels = document.querySelector(".playerLabel")
+
 
 
   class Player {
@@ -210,13 +212,6 @@ function render() {
     printHandicap()
 }
 
-function clearElement(element) {
-    while (element.firstChild) {
-        element.removeChild(element.firstChild)
-    }
-}
-
-
 //   getCourseInfo(render)
 //   function changeTeeBox(box) {
 //       currentTee = box
@@ -245,7 +240,8 @@ function clearElement(element) {
     const playerVal = playerName.value;
     // if the user leaves the form blank we return with nothing 
     // if filled out we will call the render function and push the HTML so it displays on the left column
-    if (!playerVal) return
+    if (!playerVal || playerCount === 4) return
+        clearPlayers()
         playerCount += 1
         const player = addPlayer(playerVal)
         playerName.value = null
@@ -257,21 +253,74 @@ function clearElement(element) {
 
 
     function addPlayer (name) {
-        return {id: Date.now().toString(), name: name, scores: [] }
+        return {id: Date.now().toString(), name: name, scores: new Array(18).fill(0)}
      }
 
 
     function printPlayer () {
         players.forEach (player => {
-            clearElement()
-            const playerRow = document.createElement('tr')
-            playerRow.dataset.playerId = player.id
-            
-            const playerHeading = document.createElement('th')
-            playerHeading.innerHTML = `${player.name}`
-            
-            cardOne.appendChild(playerRow) 
-            playerRow.appendChild(playerHeading)
+            printScoresOnCard(player, true)
+            printScoresOnCard(player, false)
 
         })
+    }
+
+    function printScoresOnCard(player, isFirstHalf) {
+        const cardSelector = isFirstHalf ? `#cardOne` : '#cardTwo'
+        const scoresToShow = isFirstHalf ? player.scores.slice(0, 9) : player.scores.slice(9)
+        const appendAfter = document.querySelector(`${cardSelector} tbody`)
+        const headingHtml = `<th>${player.name}</th>`
+
+
+        const sum = scoresToShow.reduce((accumulator, value) => {
+            return +accumulator + +value;
+        }, 0)
+        const totalElement = `<td>${sum}</td>`
+
+        const scoresHtml = scoresToShow.reduce((html, score, index) => {
+            const holePosition = index + (isFirstHalf ? 0 : 9)
+            return  `
+                ${html}
+                <td>
+                    <input
+                        onchange="handleHoleChange(this, ${player.id}, ${holePosition})"
+                        value="${score}" 
+                        class="inputScore"
+                     />
+                </td>`;
+        }, '')
+           
+        const rowHtml = `
+            <tr class="playerLabel" data-playerId="${player.id}">
+                ${headingHtml}
+                ${scoresHtml}
+                ${totalElement}
+            </tr>
+        
+        `
+
+
+ 
+
+        appendAfter.insertAdjacentHTML('beforeend', rowHtml) 
+    }
+
+
+    function handleHoleChange(element, playerId, holePosition) {
+        const newHoleScore = element.value;
+        const player = players.find(playerItem => playerItem.id === `${playerId}`);
+
+        player.scores[holePosition] = newHoleScore;
+    }
+
+    function clearElement(element) {
+        while (element.firstChild) {
+            element.removeChild(element.firstChild)
+        }
+    }
+    
+    function clearPlayers() {
+        const playerLabels = document.querySelectorAll(".playerLabel")
+        Array.from(playerLabels).forEach(element => element.remove()) 
+
     }
