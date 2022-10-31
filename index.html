@@ -19,8 +19,8 @@
 
 
     <div class="collapse" id="navbarToggleExternalContent">
-        <div class="bg-dark p-4">
-            <div id="options-container">
+        <div class="nav-collapse-color p-4">
+            <div id="options-container" class="container">
                 <div class="form-group">
                     <label for="course-select">Select Course</label>
                     <select class="form-control" id="course-select"></select>
@@ -32,17 +32,19 @@
             </div>
         </div>
       </div>
-      <nav class="navbar navbar-dark bg-dark">
-        <div class="container-fluid">
+      <nav class="navbar navbar-dark">
+        <div class="container justify-content-between mb-2">
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <h1 class="text-white">The Cornfields Golf</h1>
+                <h1 class="text-white logo">The Cornfields Golf</h1>
+                <span></span>
         </div>
-        <div class="col-md-6">
+        <div class="container">
+            <span class="playerLabel text-white">Add Player: </span>
             <form id="playerForm" class="input-group mb-3">
                 <input type="text" class="form-control list-form" placeholder="Enter New Player" aria-describedby="button-addon2" id="playerName">
-                <button class="btn rounded-pill" type="submit" id="new-player-submit"">+</button>
+                <button class="btn text-white playerSubmit" type="submit" id="new-player-submit"">+</button>
             </form>
             </div>
       </nav>
@@ -58,7 +60,7 @@
 
                 <h1>Card 1</h1>
                 <div class="table-responsive">
-                    <table class="table table-bordered" id="cardOne">
+                    <table class="table table-bordered text-center" id="cardOne">
                         <tbody>
                             <tr id="holes">
                                 <th scope="row">Hole</th>
@@ -83,7 +85,7 @@
                 
                 <h1>Card 2</h1>
                 <div class="table-responsive">
-                    <table class="table table-bordered" id="cardTwo"">
+                    <table class="table table-bordered text-center" id="cardTwo"">
                         <tr>
                             <th scope="row">Hole</th>
                             <td>10</td>
