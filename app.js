@@ -275,8 +275,8 @@ function render() {
         const sum = scoresToShow.reduce((accumulator, value) => {
             return +accumulator + +value;
         }, 0)
-        const totalElement = `<td class="totalElement">${sum}</td>`
-        const inAndOut = `<td class="inAndOut">0</td>`
+        const totalElement = `<td class="totalElement" data-playerID=${player.id}>${sum}</td>`
+        const inAndOut = `<td class="inAndOut" data-playerID="${player.id}">0</td>`
 
 
         const scoresHtml = scoresToShow.reduce((html, score, index) => {
@@ -321,12 +321,12 @@ function render() {
             return +accumulator + +value;
         }, 0)
         
-        const totalElement = document.querySelectorAll(".totalElement")
-        Array.from(totalElement).forEach(element => element.innerHTML = `${sum}`)
+        const totalElement = document.querySelector(`.totalElement[data-playerID="${playerId}"]`)
+        totalElement.innerHTML = `${sum}`
 
         // This is creating the row for the In
         const firstCard = player.scores.slice(0, 9)
-        const inElement = document.querySelector("#cardOne .inAndOut")
+        const inElement = document.querySelector(`#cardOne .inAndOut[data-playerID="${playerId}`)
 
         const iN = firstCard.reduce((accumulator, value) => {
             return +accumulator + +value;
@@ -336,7 +336,7 @@ function render() {
 
         // This one is for the Out
         const secondCard = player.scores.slice(9)
-        const outElement = document.querySelector("#cardTwo .inAndOut")
+        const outElement = document.querySelector(`#cardTwo .inAndOut[data-playerID="${playerId}"]`)
 
         const out = secondCard.reduce((accumulator, value) => {
             return +accumulator + +value;
